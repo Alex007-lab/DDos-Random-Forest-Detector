@@ -1,0 +1,558 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2400" height="2050" viewBox="0 0 2400 2050" role="img" aria-labelledby="svg-title svg-desc">
+  <title id="svg-title">Arquitectura detallada del Proyecto Terminal de detección DDoS mediante inteligencia artificial</title>
+  <desc id="svg-desc">Diagrama detallado que muestra usuarios y generadores de tráfico, Docker Compose, Nginx, el Contramuseo, la API Flask, SQLite, logs, captura con Scapy, construcción del dataset, librerías de Python, entrenamiento, evaluación, modelos serializados, inferencia en vivo, alertas, dashboard, mitigación y despliegue en Raspberry Pi.</desc>
+
+  <defs>
+    <filter id="shadow" x="-15%" y="-15%" width="130%" height="140%">
+      <feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#17212b" flood-opacity="0.12"/>
+    </filter>
+    <marker id="arrow-http" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#2d6097"/>
+    </marker>
+    <marker id="arrow-data" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#087f83"/>
+    </marker>
+    <marker id="arrow-store" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#a86800"/>
+    </marker>
+    <marker id="arrow-alert" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#b33a3a"/>
+    </marker>
+    <marker id="arrow-control" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#6a2d5b"/>
+    </marker>
+    <style>
+      text { font-family: Inter, "Segoe UI", Arial, sans-serif; fill: #17212b; }
+      .canvas { fill: #f4f6f8; }
+      .title { font-size: 52px; font-weight: 750; letter-spacing: -1.5px; fill: #ffffff; }
+      .subtitle { font-size: 23px; fill: #efe7ed; }
+      .section-title { font-size: 27px; font-weight: 750; fill: #3b132f; }
+      .section-subtitle { font-size: 18px; fill: #5c6875; }
+      .zone { fill: #ffffff; stroke: #d8dee5; stroke-width: 2; rx: 20; }
+      .zone-infra { fill: #f7faff; stroke: #a9c4df; }
+      .zone-ml { fill: #f4fbfa; stroke: #9dceca; }
+      .zone-runtime { fill: #fffaf4; stroke: #dfbd83; }
+      .zone-lifecycle { fill: #faf6f9; stroke: #c8a5bf; }
+      .inner-zone { fill: #ffffff; stroke: #b9c9da; stroke-width: 2; stroke-dasharray: 9 7; rx: 18; }
+      .box { fill: #ffffff; stroke: #cfd7df; stroke-width: 2; rx: 14; filter: url(#shadow); }
+      .box-infra { stroke: #7ea9d0; }
+      .box-app { stroke: #9b6690; }
+      .box-data { stroke: #65aaa6; }
+      .box-store { stroke: #d0a45b; }
+      .box-security { stroke: #d07b78; }
+      .box-future { fill: #faf7f9; stroke: #a6819d; stroke-dasharray: 10 7; }
+      .header-infra { fill: #2d6097; }
+      .header-app { fill: #6a2d5b; }
+      .header-data { fill: #087f83; }
+      .header-store { fill: #a86800; }
+      .header-security { fill: #a83c3c; }
+      .header-neutral { fill: #506172; }
+      .box-title { font-size: 21px; font-weight: 750; fill: #ffffff; }
+      .box-body { font-size: 17px; fill: #34414d; }
+      .box-small { font-size: 15px; fill: #5c6875; }
+      .tag { rx: 11; }
+      .tag-t2 { fill: #dff2ef; stroke: #5ea9a4; }
+      .tag-t3 { fill: #f3e9f0; stroke: #a77b9b; }
+      .tag-now { fill: #edf4fb; stroke: #6d9dc8; }
+      .tag-text { font-size: 14px; font-weight: 750; letter-spacing: .5px; }
+      .tag-text-t2 { fill: #087f83; }
+      .tag-text-t3 { fill: #6a2d5b; }
+      .tag-text-now { fill: #2d6097; }
+      .http { fill: none; stroke: #2d6097; stroke-width: 4; marker-end: url(#arrow-http); }
+      .data { fill: none; stroke: #087f83; stroke-width: 4; marker-end: url(#arrow-data); }
+      .storage { fill: none; stroke: #a86800; stroke-width: 4; stroke-dasharray: 10 7; marker-end: url(#arrow-store); }
+      .alert { fill: none; stroke: #b33a3a; stroke-width: 4; marker-end: url(#arrow-alert); }
+      .control { fill: none; stroke: #6a2d5b; stroke-width: 4; stroke-dasharray: 12 8; marker-end: url(#arrow-control); }
+      .orchestrate { fill: none; stroke: #6a2d5b; stroke-width: 3; stroke-dasharray: 3 8; marker-end: url(#arrow-control); }
+      .link-label { font-size: 15px; font-weight: 700; }
+      .link-http { fill: #2d6097; }
+      .link-data { fill: #087f83; }
+      .link-store { fill: #a86800; }
+      .link-alert { fill: #a83c3c; }
+      .note { fill: #fff4d9; stroke: #d8a448; stroke-width: 2; rx: 13; }
+      .note-title { font-size: 18px; font-weight: 750; fill: #725000; }
+      .note-body { font-size: 16px; fill: #5f4b1e; }
+      .legend-text { font-size: 16px; fill: #45515d; }
+      .legend-top { font-size: 16px; fill: #ffffff; }
+      .phase-label { font-size: 15px; font-weight: 750; letter-spacing: 1px; fill: #5d1748; }
+    </style>
+  </defs>
+
+  <rect class="canvas" x="0" y="0" width="2400" height="2050"/>
+  <rect x="0" y="0" width="2400" height="150" fill="#4a123a"/>
+  <rect x="1700" y="0" width="700" height="150" fill="#5d1748" opacity="0.65"/>
+  <text class="title" x="55" y="68">Arquitectura detallada del Proyecto Terminal</text>
+  <text class="subtitle" x="57" y="108">Detección y mitigación de ataques DDoS mediante inteligencia artificial · Contramuseo como servicio protegido</text>
+
+  <!-- Leyenda superior -->
+  <g transform="translate(1570,35)">
+    <line class="http" x1="0" y1="8" x2="82" y2="8"/>
+    <text class="legend-top" x="94" y="14">HTTP/API</text>
+    <line class="data" x1="210" y1="8" x2="292" y2="8"/>
+    <text class="legend-top" x="304" y="14">datos/ML</text>
+    <line class="storage" x1="430" y1="8" x2="512" y2="8"/>
+    <text class="legend-top" x="524" y="14">volumen/archivo</text>
+    <line class="alert" x1="0" y1="52" x2="82" y2="52"/>
+    <text class="legend-top" x="94" y="58">alerta</text>
+    <line class="control" x1="210" y1="52" x2="292" y2="52"/>
+    <text class="legend-top" x="304" y="58">control/mitigación</text>
+  </g>
+
+  <!-- Fondos de zonas -->
+  <rect class="zone" x="35" y="180" width="360" height="790"/>
+  <rect class="zone zone-infra" x="425" y="180" width="1390" height="790"/>
+  <rect class="zone zone-lifecycle" x="1845" y="180" width="520" height="790"/>
+  <rect class="zone zone-ml" x="35" y="1005" width="1165" height="965"/>
+  <rect class="zone zone-runtime" x="1230" y="1005" width="1135" height="965"/>
+
+  <!-- Títulos de zonas -->
+  <text class="section-title" x="62" y="222">1. Entradas y herramientas</text>
+  <text class="section-subtitle" x="62" y="250">Quién genera tráfico y quién desarrolla</text>
+
+  <text class="section-title" x="455" y="222">2. Aplicación e infraestructura administrada por Docker</text>
+  <text class="section-subtitle" x="455" y="250">Docker Compose crea servicios, red, volúmenes y orden de arranque</text>
+
+  <text class="section-title" x="1875" y="222">3. Ciclo del proyecto</text>
+  <text class="section-subtitle" x="1875" y="250">Código, pruebas, documentación y despliegue</text>
+
+  <text class="section-title" x="62" y="1048">4. Construcción de la IA · entrenamiento fuera de línea</text>
+  <text class="section-subtitle" x="62" y="1076">De tráfico crudo a un modelo evaluado y serializado</text>
+
+  <text class="section-title" x="1260" y="1048">5. Detección en vivo, alertas y respuesta</text>
+  <text class="section-subtitle" x="1260" y="1076">Los mismos features del entrenamiento deben existir durante la inferencia</text>
+
+  <!-- Contenedor Docker network -->
+  <rect class="inner-zone" x="455" y="275" width="1330" height="660"/>
+  <text class="phase-label" x="478" y="305">RED DOCKER: contramuseo-net · DNS INTERNO POR NOMBRE DE SERVICIO</text>
+
+  <!-- Conexiones zona superior, dibujadas antes de nodos -->
+  <path class="http" d="M365 365 C430 365, 440 380, 500 380"/>
+  <text class="link-label link-http" x="398" y="350">GET / · /api/*</text>
+
+  <path class="http" d="M365 565 C430 565, 445 515, 500 515"/>
+  <text class="link-label link-http" x="398" y="548">carga local</text>
+
+  <path class="http" d="M820 410 C865 410, 880 390, 920 390"/>
+  <text class="link-label link-http" x="835" y="393">archivos</text>
+
+  <path class="http" d="M820 475 C870 475, 875 610, 920 610"/>
+  <text class="link-label link-http" x="835" y="505">/api/* → :5000</text>
+
+  <path class="http" d="M1300 630 C1350 630, 1370 660, 1415 660"/>
+  <text class="link-label link-http" x="1315" y="615">SQLAlchemy</text>
+
+  <path class="storage" d="M660 575 L660 690"/>
+  <text class="link-label link-store" x="678" y="640">access/error logs</text>
+
+
+  <path class="orchestrate" d="M2010 455 C1900 455, 1880 315, 1780 315"/>
+  <text class="link-label" x="1818" y="405" fill="#6a2d5b">docker compose up</text>
+
+  <!-- Entrada: navegador -->
+  <g>
+    <rect class="box box-infra" x="65" y="300" width="300" height="150"/>
+    <path class="header-infra" d="M79 300 H351 A14 14 0 0 1 365 314 V344 H65 V314 A14 14 0 0 1 79 300 Z"/>
+    <text class="box-title" x="85" y="329">Usuarios / navegador</text>
+    <text class="box-body" x="85" y="374">
+      <tspan x="85" dy="0">• Visitan el Contramuseo</tspan>
+      <tspan x="85" dy="25">• JavaScript usa fetch()</tspan>
+      <tspan x="85" dy="25">• Reciben HTML, JSON y audio</tspan>
+    </text>
+  </g>
+
+  <!-- Generadores de tráfico -->
+  <g>
+    <rect class="box box-security" x="65" y="490" width="300" height="230"/>
+    <path class="header-security" d="M79 490 H351 A14 14 0 0 1 365 504 V534 H65 V504 A14 14 0 0 1 79 490 Z"/>
+    <text class="box-title" x="85" y="519">Laboratorio de tráfico</text>
+    <text class="box-body" x="85" y="564">
+      <tspan x="85" dy="0">Locust · navegación normal</tspan>
+      <tspan x="85" dy="27">hey · carga HTTP controlada</tspan>
+      <tspan x="85" dy="27">hping3 · paquetes TCP de prueba</tspan>
+      <tspan x="85" dy="32">Solo localhost o red autorizada</tspan>
+    </text>
+    <rect class="tag tag-t2" x="85" y="676" width="65" height="24"/>
+    <text class="tag-text tag-text-t2" x="100" y="693">T2</text>
+  </g>
+
+  <!-- Herramientas de desarrollo -->
+  <g>
+    <rect class="box" x="65" y="755" width="300" height="170"/>
+    <path class="header-neutral" d="M79 755 H351 A14 14 0 0 1 365 769 V799 H65 V769 A14 14 0 0 1 79 755 Z"/>
+    <text class="box-title" x="85" y="784">Desarrollo local</text>
+    <text class="box-body" x="85" y="829">
+      <tspan x="85" dy="0">Linux + terminal + editor</tspan>
+      <tspan x="85" dy="25">Git · control de versiones</tspan>
+      <tspan x="85" dy="25">curl · DevTools · pytest</tspan>
+    </text>
+  </g>
+
+  <!-- Docker Compose -->
+  <g>
+    <rect class="box box-app" x="500" y="325" width="320" height="250"/>
+    <path class="header-app" d="M514 325 H806 A14 14 0 0 1 820 339 V371 H500 V339 A14 14 0 0 1 514 325 Z"/>
+    <text class="box-title" x="522" y="355">Nginx · contenedor</text>
+    <text class="box-body" x="522" y="401">
+      <tspan x="522" dy="0">1. Entrada HTTP en puerto 80</tspan>
+      <tspan x="522" dy="26">2. Sirve archivos estáticos</tspan>
+      <tspan x="522" dy="26">3. Proxy /api → Flask:5000</tspan>
+      <tspan x="522" dy="26">4. Caché de imágenes y audio</tspan>
+      <tspan x="522" dy="26">5. Escribe access.log</tspan>
+    </text>
+    <rect class="tag tag-now" x="720" y="535" width="75" height="24"/>
+    <text class="tag-text tag-text-now" x="735" y="552">ACTUAL</text>
+  </g>
+
+  <!-- Contramuseo -->
+  <g>
+    <rect class="box box-app" x="920" y="325" width="380" height="180"/>
+    <path class="header-app" d="M934 325 H1286 A14 14 0 0 1 1300 339 V371 H920 V339 A14 14 0 0 1 934 325 Z"/>
+    <text class="box-title" x="942" y="355">Contramuseo · frontend estático</text>
+    <text class="box-body" x="942" y="402">
+      <tspan x="942" dy="0">HTML · CSS · JavaScript</tspan>
+      <tspan x="942" dy="25">Imágenes · podcasts · galerías</tspan>
+      <tspan x="942" dy="25">fetch('/api/objetos') en la etapa dinámica</tspan>
+    </text>
+    <text class="box-small" x="942" y="486">Bind mount de ./contramuseo en modo solo lectura</text>
+  </g>
+
+  <!-- Flask API -->
+  <g>
+    <rect class="box box-app" x="920" y="540" width="380" height="260"/>
+    <path class="header-app" d="M934 540 H1286 A14 14 0 0 1 1300 554 V586 H920 V554 A14 14 0 0 1 934 540 Z"/>
+    <text class="box-title" x="942" y="570">Flask API · Python 3.11</text>
+    <text class="box-body" x="942" y="616">
+      <tspan x="942" dy="0">Flask · rutas HTTP y respuestas JSON</tspan>
+      <tspan x="942" dy="25">Flask-SQLAlchemy · ORM</tspan>
+      <tspan x="942" dy="25">Flask-Login · sesiones y roles</tspan>
+      <tspan x="942" dy="25">Werkzeug · hash de contraseñas</tspan>
+      <tspan x="942" dy="25">python-dotenv · configuración</tspan>
+      <tspan x="942" dy="25">/health · /api/objetos · /api/alertas</tspan>
+    </text>
+    <rect class="tag tag-t2" x="1208" y="758" width="65" height="24"/>
+    <text class="tag-text tag-text-t2" x="1223" y="775">T2</text>
+  </g>
+
+  <!-- SQLite -->
+  <g>
+    <rect class="box box-store" x="1415" y="565" width="315" height="195"/>
+    <path class="header-store" d="M1429 565 H1716 A14 14 0 0 1 1730 579 V611 H1415 V579 A14 14 0 0 1 1429 565 Z"/>
+    <text class="box-title" x="1437" y="595">SQLite · base de datos</text>
+    <text class="box-body" x="1437" y="641">
+      <tspan x="1437" dy="0">Objetos del museo</tspan>
+      <tspan x="1437" dy="25">Usuarios y estados</tspan>
+      <tspan x="1437" dy="25">Alertas e historial propuesto</tspan>
+      <tspan x="1437" dy="25">Un archivo .db persistente</tspan>
+    </text>
+  </g>
+
+  <!-- Nginx logs -->
+  <g>
+    <rect class="box box-store" x="500" y="690" width="320" height="190"/>
+    <path class="header-store" d="M514 690 H806 A14 14 0 0 1 820 704 V736 H500 V704 A14 14 0 0 1 514 690 Z"/>
+    <text class="box-title" x="522" y="720">Volumen nginx-logs</text>
+    <text class="box-body" x="522" y="765">
+      <tspan x="522" dy="0">/var/log/nginx/access.log</tspan>
+      <tspan x="522" dy="25">IP · hora · request · status</tspan>
+      <tspan x="522" dy="25">bytes · user-agent · request_time</tspan>
+    </text>
+    <text class="box-small" x="522" y="856">Nginx escribe · monitor HTTP lee :ro</text>
+  </g>
+
+  <!-- Docker machinery -->
+  <g>
+    <rect class="box box-infra" x="920" y="815" width="810" height="100"/>
+    <text class="box-body" x="944" y="846">
+      <tspan x="944" dy="0" font-weight="750">Docker Compose construye imágenes e inicia contenedores.</tspan>
+      <tspan x="944" dy="25">Crea la red, monta volúmenes y define puertos y variables.</tspan>
+      <tspan x="944" dy="25">Docker aísla procesos; no reemplaza a Nginx, Flask ni la IA.</tspan>
+    </text>
+  </g>
+
+  <!-- Ciclo de proyecto -->
+  <path class="control" d="M2105 390 L2105 460"/>
+  <path class="control" d="M2105 555 L2105 625"/>
+  <path class="control" d="M2105 720 L2105 790"/>
+
+  <g>
+    <rect class="box box-app" x="1885" y="285" width="440" height="105"/>
+    <path class="header-app" d="M1899 285 H2311 A14 14 0 0 1 2325 299 V331 H1885 V299 A14 14 0 0 1 1899 285 Z"/>
+    <text class="box-title" x="1907" y="315">Repositorio Git</text>
+    <text class="box-body" x="1907" y="356">
+      <tspan x="1907" dy="0">Código · Dockerfiles · configuración</tspan>
+      <tspan x="1907" dy="23">notebooks · pruebas · documentación</tspan>
+    </text>
+  </g>
+
+  <g>
+    <rect class="box box-infra" x="1885" y="460" width="440" height="95"/>
+    <path class="header-infra" d="M1899 460 H2311 A14 14 0 0 1 2325 474 V506 H1885 V474 A14 14 0 0 1 1899 460 Z"/>
+    <text class="box-title" x="1907" y="490">Laptop de desarrollo</text>
+    <text class="box-body" x="1907" y="536">docker compose up · pruebas · depuración</text>
+  </g>
+
+  <g>
+    <rect class="box box-future" x="1885" y="625" width="440" height="95"/>
+    <path class="header-app" d="M1899 625 H2311 A14 14 0 0 1 2325 639 V671 H1885 V639 A14 14 0 0 1 1899 625 Z"/>
+    <text class="box-title" x="1907" y="655">Raspberry Pi · ARM64</text>
+    <text class="box-body" x="1907" y="701">git clone → Docker Compose → servicio en LAN</text>
+    <rect class="tag tag-t3" x="2238" y="684" width="65" height="24"/>
+    <text class="tag-text tag-text-t3" x="2253" y="701">T3</text>
+  </g>
+
+  <g>
+    <rect class="box" x="1885" y="790" width="440" height="135"/>
+    <path class="header-neutral" d="M1899 790 H2311 A14 14 0 0 1 2325 804 V836 H1885 V804 A14 14 0 0 1 1899 790 Z"/>
+    <text class="box-title" x="1907" y="820">Calidad y documentación</text>
+    <text class="box-body" x="1907" y="866">
+      <tspan x="1907" dy="0">pytest · curl · bitácora de experimentos</tspan>
+      <tspan x="1907" dy="25">LaTeX · figuras · métricas · conclusiones</tspan>
+    </text>
+  </g>
+
+  <!-- Conexiones entrenamiento -->
+  <path class="data" d="M300 1215 L390 1215"/>
+  <path class="data" d="M675 1215 L765 1215"/>
+  <path class="data" d="M1055 1215 C1110 1215, 1110 1405, 1055 1405"/>
+  <path class="data" d="M765 1405 L675 1405"/>
+  <path class="data" d="M390 1405 L300 1405"/>
+  <path class="storage" d="M190 1495 L190 1585"/>
+  <text class="link-label link-data" x="313" y="1198">parsear</text>
+  <text class="link-label link-data" x="686" y="1198">agrupar</text>
+  <text class="link-label link-data" x="692" y="1388">split temporal</text>
+  <text class="link-label link-data" x="308" y="1388">fit + predict</text>
+  <text class="link-label link-store" x="210" y="1550">joblib.dump()</text>
+
+  <!-- Fuente de datos de entrenamiento -->
+  <g>
+    <rect class="box box-data" x="70" y="1120" width="230" height="190"/>
+    <path class="header-data" d="M84 1120 H286 A14 14 0 0 1 300 1134 V1166 H70 V1134 A14 14 0 0 1 84 1120 Z"/>
+    <text class="box-title" x="92" y="1150">Datos crudos</text>
+    <text class="box-body" x="92" y="1196">
+      <tspan x="92" dy="0">Ruta A: logs propios</tspan>
+      <tspan x="92" dy="25">Ruta B: flujos/PCAP</tspan>
+      <tspan x="92" dy="25">CICIDS2017 compatible</tspan>
+    </text>
+    <text class="box-small" x="92" y="1282">Normal + anómalo + etiqueta</text>
+  </g>
+
+  <!-- Parsing -->
+  <g>
+    <rect class="box box-data" x="390" y="1120" width="285" height="190"/>
+    <path class="header-data" d="M404 1120 H661 A14 14 0 0 1 675 1134 V1166 H390 V1134 A14 14 0 0 1 404 1120 Z"/>
+    <text class="box-title" x="412" y="1150">Ingesta y limpieza</text>
+    <text class="box-body" x="412" y="1196">
+      <tspan x="412" dy="0">pandas · lectura CSV/log</tspan>
+      <tspan x="412" dy="25">tipos · nulos · infinitos</tspan>
+      <tspan x="412" dy="25">timestamps · etiquetas</tspan>
+    </text>
+    <text class="box-small" x="412" y="1282">Salida: eventos consistentes</text>
+  </g>
+
+  <!-- Features -->
+  <g>
+    <rect class="box box-data" x="765" y="1120" width="290" height="190"/>
+    <path class="header-data" d="M779 1120 H1041 A14 14 0 0 1 1055 1134 V1166 H765 V1134 A14 14 0 0 1 779 1120 Z"/>
+    <text class="box-title" x="787" y="1150">Ingeniería de features</text>
+    <text class="box-body" x="787" y="1196">
+      <tspan x="787" dy="0">numpy · ventanas por IP</tspan>
+      <tspan x="787" dy="25">requests/s · bytes/s</tspan>
+      <tspan x="787" dy="25">errores · rutas · varianza</tspan>
+    </text>
+    <text class="box-small" x="787" y="1282">Salida: una fila numérica por ventana</text>
+  </g>
+
+  <!-- Split -->
+  <g>
+    <rect class="box box-data" x="765" y="1340" width="290" height="165"/>
+    <path class="header-data" d="M779 1340 H1041 A14 14 0 0 1 1055 1354 V1386 H765 V1354 A14 14 0 0 1 779 1340 Z"/>
+    <text class="box-title" x="787" y="1370">Separación experimental</text>
+    <text class="box-body" x="787" y="1416">
+      <tspan x="787" dy="0">train · validación · test</tspan>
+      <tspan x="787" dy="25">Sesiones temporales distintas</tspan>
+      <tspan x="787" dy="25">Evita fuga de datos</tspan>
+    </text>
+  </g>
+
+  <!-- Model training -->
+  <g>
+    <rect class="box box-data" x="390" y="1340" width="285" height="165"/>
+    <path class="header-data" d="M404 1340 H661 A14 14 0 0 1 675 1354 V1386 H390 V1354 A14 14 0 0 1 404 1340 Z"/>
+    <text class="box-title" x="412" y="1370">Entrenamiento</text>
+    <text class="box-body" x="412" y="1416">
+      <tspan x="412" dy="0">scikit-learn</tspan>
+      <tspan x="412" dy="25">Umbral base · Isolation Forest</tspan>
+      <tspan x="412" dy="25">o Random Forest supervisado</tspan>
+    </text>
+  </g>
+
+  <!-- Evaluation -->
+  <g>
+    <rect class="box box-data" x="70" y="1340" width="230" height="165"/>
+    <path class="header-data" d="M84 1340 H286 A14 14 0 0 1 300 1354 V1386 H70 V1354 A14 14 0 0 1 84 1340 Z"/>
+    <text class="box-title" x="92" y="1370">Evaluación</text>
+    <text class="box-body" x="92" y="1416">
+      <tspan x="92" dy="0">Matriz de confusión</tspan>
+      <tspan x="92" dy="25">precision · recall · F1</tspan>
+      <tspan x="92" dy="25">FPR · latencia · recursos</tspan>
+    </text>
+  </g>
+
+  <!-- Model artifact -->
+  <g>
+    <rect class="box box-store" x="70" y="1585" width="230" height="145"/>
+    <path class="header-store" d="M84 1585 H286 A14 14 0 0 1 300 1599 V1631 H70 V1599 A14 14 0 0 1 84 1585 Z"/>
+    <text class="box-title" x="92" y="1615">Modelo serializado</text>
+    <text class="box-body" x="92" y="1661">
+      <tspan x="92" dy="0">joblib · .pkl/.joblib</tspan>
+      <tspan x="92" dy="25">orden de features + versión</tspan>
+    </text>
+    <rect class="tag tag-t2" x="211" y="1690" width="65" height="24"/>
+    <text class="tag-text tag-text-t2" x="226" y="1707">T2</text>
+  </g>
+
+  <!-- Libraries -->
+  <g>
+    <rect class="box" x="355" y="1585" width="350" height="240"/>
+    <path class="header-neutral" d="M369 1585 H691 A14 14 0 0 1 705 1599 V1631 H355 V1599 A14 14 0 0 1 369 1585 Z"/>
+    <text class="box-title" x="377" y="1615">Herramientas Python para IA</text>
+    <text class="box-body" x="377" y="1661">
+      <tspan x="377" dy="0">Jupyter · experimentos explicables</tspan>
+      <tspan x="377" dy="25">pandas · tablas y limpieza</tspan>
+      <tspan x="377" dy="25">NumPy · cálculo numérico</tspan>
+      <tspan x="377" dy="25">scikit-learn · modelos/métricas</tspan>
+      <tspan x="377" dy="25">joblib · guardar/cargar modelo</tspan>
+      <tspan x="377" dy="25">Matplotlib/Seaborn · gráficas</tspan>
+    </text>
+  </g>
+
+  <!-- Warning -->
+  <g>
+    <rect class="note" x="745" y="1585" width="410" height="240"/>
+    <text class="note-title" x="770" y="1622">Regla metodológica central</text>
+    <text class="note-body" x="770" y="1660">
+      <tspan x="770" dy="0">El modelo solo puede recibir en vivo</tspan>
+      <tspan x="770" dy="25">las mismas variables, unidades, orden</tspan>
+      <tspan x="770" dy="25">y transformaciones usadas al entrenar.</tspan>
+      <tspan x="770" dy="35">No mezclar features de CICIDS2017</tspan>
+      <tspan x="770" dy="25">con campos distintos de access.log.</tspan>
+    </text>
+  </g>
+
+  <!-- Training output to runtime model store -->
+  <path class="storage" d="M300 1655 C620 1905, 1660 1975, 2130 1305"/>
+  <text class="link-label link-store" x="1010" y="1925">./models montado en entrenamiento y monitores</text>
+
+  <!-- Live runtime connections -->
+  <path class="storage" d="M660 880 C700 1050, 1290 1000, 1395 1135"/>
+  <text class="link-label link-store" x="865" y="980">nginx-logs :ro</text>
+
+  <path class="data" d="M1570 1295 C1570 1345, 1650 1355, 1650 1400"/>
+  <path class="data" d="M1870 1295 C1870 1345, 1760 1355, 1760 1400"/>
+  <path class="storage" d="M2140 1295 C2100 1365, 1920 1400, 1880 1460"/>
+  <path class="alert" d="M1650 1570 C1600 1615, 1500 1610, 1450 1650"/>
+  <path class="http" d="M1430 1790 C1380 1900, 1080 1880, 1080 800"/>
+  <text class="link-label link-http" x="1105" y="1850">POST /api/alertas → Flask → SQLite</text>
+  <path class="alert" d="M1560 1740 L1690 1740"/>
+  <path class="control" d="M1945 1740 L2070 1740"/>
+
+  <!-- HTTP monitor -->
+  <g>
+    <rect class="box box-data" x="1270" y="1110" width="360" height="185"/>
+    <path class="header-data" d="M1284 1110 H1616 A14 14 0 0 1 1630 1124 V1156 H1270 V1124 A14 14 0 0 1 1284 1110 Z"/>
+    <text class="box-title" x="1292" y="1140">Monitor HTTP · contenedor</text>
+    <text class="box-body" x="1292" y="1186">
+      <tspan x="1292" dy="0">Lee access.log en modo read-only</tspan>
+      <tspan x="1292" dy="25">Parser → ventanas por IP</tspan>
+      <tspan x="1292" dy="25">requests/s · bytes · errores · rutas</tspan>
+    </text>
+    <rect class="tag tag-t2" x="1539" y="1253" width="65" height="24"/>
+    <text class="tag-text tag-text-t2" x="1554" y="1270">T2</text>
+  </g>
+
+  <!-- Network monitor -->
+  <g>
+    <rect class="box box-security box-future" x="1675" y="1110" width="360" height="185"/>
+    <path class="header-security" d="M1689 1110 H2021 A14 14 0 0 1 2035 1124 V1156 H1675 V1124 A14 14 0 0 1 1689 1110 Z"/>
+    <text class="box-title" x="1697" y="1140">Monitor de red · host</text>
+    <text class="box-body" x="1697" y="1186">
+      <tspan x="1697" dy="0">Scapy.sniff() · TCP/UDP/ICMP</tspan>
+      <tspan x="1697" dy="25">network_mode: host · NET_RAW</tspan>
+      <tspan x="1697" dy="25">paquetes/s · tamaños · flags · flujos</tspan>
+    </text>
+    <rect class="tag tag-t3" x="1944" y="1253" width="65" height="24"/>
+    <text class="tag-text tag-text-t3" x="1959" y="1270">T3</text>
+  </g>
+
+  <!-- model store runtime -->
+  <g>
+    <rect class="box box-store" x="2070" y="1110" width="255" height="185"/>
+    <path class="header-store" d="M2084 1110 H2311 A14 14 0 0 1 2325 1124 V1156 H2070 V1124 A14 14 0 0 1 2084 1110 Z"/>
+    <text class="box-title" x="2092" y="1140">./models</text>
+    <text class="box-body" x="2092" y="1186">
+      <tspan x="2092" dy="0">Modelo validado</tspan>
+      <tspan x="2092" dy="25">metadata/features</tspan>
+      <tspan x="2092" dy="25">joblib.load()</tspan>
+    </text>
+  </g>
+
+  <!-- Inference -->
+  <g>
+    <rect class="box box-data" x="1460" y="1400" width="420" height="170"/>
+    <path class="header-data" d="M1474 1400 H1866 A14 14 0 0 1 1880 1414 V1446 H1460 V1414 A14 14 0 0 1 1474 1400 Z"/>
+    <text class="box-title" x="1482" y="1430">Pipeline de inferencia en vivo</text>
+    <text class="box-body" x="1482" y="1476">
+      <tspan x="1482" dy="0">1. Vector con esquema idéntico al entrenamiento</tspan>
+      <tspan x="1482" dy="25">2. model.predict() / decision_function()</tspan>
+      <tspan x="1482" dy="25">3. Regla temporal para evitar alertas aisladas</tspan>
+    </text>
+  </g>
+
+  <!-- Alert API -->
+  <g>
+    <rect class="box box-security" x="1270" y="1650" width="290" height="170"/>
+    <path class="header-security" d="M1284 1650 H1546 A14 14 0 0 1 1560 1664 V1696 H1270 V1664 A14 14 0 0 1 1284 1650 Z"/>
+    <text class="box-title" x="1292" y="1680">Evento de alerta</text>
+    <text class="box-body" x="1292" y="1726">
+      <tspan x="1292" dy="0">IP · tiempo · sensor</tspan>
+      <tspan x="1292" dy="25">score · features · decisión</tspan>
+      <tspan x="1292" dy="25">T2: consola + persistencia</tspan>
+    </text>
+    <rect class="tag tag-t2" x="1469" y="1778" width="65" height="24"/>
+    <text class="tag-text tag-text-t2" x="1484" y="1795">T2</text>
+  </g>
+
+  <!-- Dashboard -->
+  <g>
+    <rect class="box box-app box-future" x="1690" y="1650" width="255" height="170"/>
+    <path class="header-app" d="M1704 1650 H1931 A14 14 0 0 1 1945 1664 V1696 H1690 V1664 A14 14 0 0 1 1704 1650 Z"/>
+    <text class="box-title" x="1712" y="1680">Dashboard :8080</text>
+    <text class="box-body" x="1712" y="1726">
+      <tspan x="1712" dy="0">Tráfico y alertas</tspan>
+      <tspan x="1712" dy="25">Falsos positivos</tspan>
+      <tspan x="1712" dy="25">Historial de acciones</tspan>
+    </text>
+    <rect class="tag tag-t3" x="1854" y="1778" width="65" height="24"/>
+    <text class="tag-text tag-text-t3" x="1869" y="1795">T3</text>
+  </g>
+
+  <!-- Mitigation -->
+  <g>
+    <rect class="box box-security box-future" x="2070" y="1650" width="255" height="170"/>
+    <path class="header-security" d="M2084 1650 H2311 A14 14 0 0 1 2325 1664 V1696 H2070 V1664 A14 14 0 0 1 2084 1650 Z"/>
+    <text class="box-title" x="2092" y="1680">Mitigación segura</text>
+    <text class="box-body" x="2092" y="1726">
+      <tspan x="2092" dy="0">nftables / iptables</tspan>
+      <tspan x="2092" dy="25">whitelist · TTL · auditoría</tspan>
+      <tspan x="2092" dy="25">NET_ADMIN controlado</tspan>
+    </text>
+    <rect class="tag tag-t3" x="2234" y="1778" width="65" height="24"/>
+    <text class="tag-text tag-text-t3" x="2249" y="1795">T3</text>
+  </g>
+
+  <!-- Footer de lectura -->
+  <rect x="35" y="1990" width="2330" height="40" rx="12" fill="#e9edf1"/>
+  <text x="55" y="2017" font-size="17" fill="#465361">
+    Lectura recomendada: siga primero las flechas azules (aplicación), después las verdes (datos/IA), las naranjas (persistencia), las rojas (alertas) y al final las moradas discontinuas (respuesta T3).
+  </text>
+</svg>

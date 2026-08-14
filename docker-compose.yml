@@ -1,0 +1,80 @@
+# ─────────────────────────────────────────
+#  Red interna compartida por los servicios
+# ─────────────────────────────────────────
+networks:
+  contramuseo-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+
+# ──────────────────────────────────────────────────────
+#  Volúmenes nombrados (persisten entre reinicios)
+# ──────────────────────────────────────────────────────
+volumes:
+  nginx-logs: # Logs de acceso HTTP → la IA los leerá en T2/T3
+  db-data: # Datos de SQLite persistentes
+
+# ──────────────────────────────────────────────────────
+#  Servicios
+# ──────────────────────────────────────────────────────
+services:
+  # ── 1. NGINX: sirve el sitio estático + hace proxy a Flask ──
+  nginx:
+    image: nginx:1.25-alpine # imagen oficial liviana (~40 MB)
+    container_name: contramuseo-nginx
+    ports:
+      - "80:80" # localhost:80 → tu navegador
+    volumes:
+      - ./contramuseo:/usr/share/nginx/html:ro # sitio estático (solo lectura)
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - nginx-logs:/var/log/nginx # logs compartidos con la IA
+    networks:
+      contramuseo-net:
+        ipv4_address: 172.20.0.2
+    depends_on:
+      - flask-api # espera a que flask-api arranque
+    restart: unless-stopped
+
+  # ── 2. FLASK-API: backend con autenticación y subida de podcasts ──
+  flask-api:
+    build:
+      context: ./backend # busca el Dockerfile en ./backend/
+      dockerfile: Dockerfile
+    container_name: contramuseo-api
+    ports:
+      - "5000:5000" # localhost:5000 → API directa (útil para debug)
+    volumes:
+      - ./backend:/app # monta el código en vivo (hot-reload en dev)
+      - ./database:/app/database # persiste la base de datos SQLite
+      - db-data:/app/database
+    environment:
+      - FLASK_ENV=development # activa el modo debug y recarga automática
+      - FLASK_APP=app.py
+      - DATABASE_URL=sqlite:///database/contramuseo.db
+      - SECRET_KEY=${SECRET_KEY:?Define SECRET_KEY en el archivo .env}
+    networks:
+      contramuseo-net:
+        ipv4_address: 172.20.0.3
+    restart: unless-stopped
+
+  # ── 3. DB: en Semana 8 SQLite vive en un archivo, este servicio
+  #    es un placeholder para la migración futura a PostgreSQL ──
+  #
+  #  NOTA: SQLite no necesita un contenedor propio; el archivo .db
+  #  vive en el volumen montado en flask-api. Este bloque está
+  #  comentado en S8 y se activará cuando migremos a PostgreSQL.
+  #
+  # db:
+  #   image: postgres:16-alpine
+  #   container_name: contramuseo-db
+  #   environment:
+  #     POSTGRES_DB: contramuseo
+  #     POSTGRES_USER: admin
+  #     POSTGRES_PASSWORD: cambiar-en-produccion
+  #   volumes:
+  #     - db-data:/var/lib/postgresql/data
+  #   networks:
+  #     contramuseo-net:
+  #       ipv4_address: 172.20.0.4
+  #   restart: unless-stopped

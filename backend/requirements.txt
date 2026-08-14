@@ -1,0 +1,16 @@
+# ── Web framework ────────────────────────────────────────
+flask==3.0.3
+
+# ── Base de datos ────────────────────────────────────────
+flask-sqlalchemy==3.1.1     # ORM: define tablas como clases Python
+                            # Semana 8: SQLite. Semana T3: cambiar a PostgreSQL
+                            # con un solo cambio de variable de entorno.
+
+# ── Autenticación ────────────────────────────────────────
+flask-login==0.6.3          # gestión de sesiones (login/logout/current_user)
+werkzeug==3.0.3             # hashing de contraseñas (generate_password_hash)
+                            # Werkzeug ya es dependencia de Flask, lo fijamos
+                            # para evitar incompatibilidades de versión.
+
+# ── Utilidades ────────────────────────────────────────────
+python-dotenv==1.0.1        # carga variables de entorno desde un archivo .env

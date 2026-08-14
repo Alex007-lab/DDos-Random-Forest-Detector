@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contramuseo • Archivo Digital</title>
+
+    <!-- METADATOS -->
+    <meta name="description"
+        content="Archivo digital de colecciones históricas y culturales organizadas por categorías temáticas.">
+    <meta name="author" content="Contramuseo">
+
+    <!-- ESTILOS GENERALES -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- SWIPER (para carruseles dentro del mosaico) -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- PRELOAD PARA MEJOR PERFORMANCE -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" as="style" href="https://unpkg.com/swiper@8/swiper-bundle.min.css">
+</head>
+
+<body>
+    <!-- BOTÓN DE MENÚ MÓVIL -->
+    <button id="sidebarToggle" class="sidebar-toggle" aria-label="Alternar menú lateral" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- OVERLAY PARA CERRAR SIDEBAR -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- CONTENEDOR DEL SIDEBAR -->
+    <div id="sidebar" role="complementary" aria-label="Menú lateral">
+        <!-- El contenido se cargará dinámicamente -->
+    </div>
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="contenido" role="main">
+
+        <!-- ENCABEZADO DEL INDEX -->
+        <section class="epoca">
+            <h1>Contramuseo</h1>
+
+            <p class="autor">Archivo digital de colecciones temáticas</p>
+
+            <div class="intro-principal">
+
+                <p><em>Contramuseo</em> es un proyecto colectivo, desarrollado por un grupo de alumnes y profesora de la
+                    Universidad Autónoma Metropolitana-Cuajimalpa, en la Ciudad de México, con el objetivo de
+                    reflexionar sobre y de desmontar las narrativas monolíticas que han anclado la noción de patrimonio
+                    nacional.</p>
+
+                <p>La colección de objetos contenidos en el <em>Contramuseo</em> es ecléctica – el visitante encontrará
+                    acá artefactos prehispánicos, códices producidos por pueblos originarios, réplicas de objetos
+                    prehispánicos, pero también de la muñeca Barbie®, maquetas museográficas, pinturas decimonónicas,
+                    esculturas religiosas, restos humanos, y hasta una cabina telefónica Telmex® y un teporingo – y
+                    quizás tan asombrosa en sus categorías como la ficticia enciclopedia china en un ensayo de Borges,
+                    donde los animales se dividen en: pertenecientes al Emperador, embalsamados, amaestrados, lechones,
+                    sirenas, fabulosos….</p>
+
+                <p>Detrás de la extrañeza que puede generar una colección tal, hay un compromiso compartido: interpelar
+                    el orden aceptado de las cosas, al ofrecer, en la curaduría de cada uno de los objetos, una mirada
+                    oblicua, un espacio de debate. En conversación con estudios recientes sobre museos y colecciones,
+                    partimos de una serie de preguntas:</p>
+
+                <p>¿Qué supuestos políticos, culturales, raciales, de género están implícitos en la construcción del
+                    patrimonio nacional?
+                    ¿Qué prácticas disciplinarias, pretensiones universalizantes o narrativas teleológicas?
+                    ¿Cómo desmontar estos supuestos, para explorar sus contingencias y arbitrariedades, para hacernos
+                    cargo de los silencios, los olvidos y los secretos que esconden?
+                    ¿Cómo repensar las trayectorias de los objetos, para hacer visible sus desplazamientos espaciales,
+                    la huella del tiempo sobre sus superficies, sus cambios de valor económico, simbólico o político?
+                    ¿Qué nuevas narrativas se hacen posibles al estudiar objetos desde los tipos de relaciones afectivas
+                    y ecológicas que les dan sentido?
+                    ¿Cómo confrontar la aparente solidez del patrimonio con fragmentos y pedazos rotos, dispersos, que
+                    fracturan y refuerzan a la vez la idea de patrimonio?
+                    ¿Cómo abrir la conversación para incluir a personas cuyas voces, emociones y formas de relacionarse
+                    con las cosas han sido suprimidas o silenciadas?</p>
+
+                <p><em>Miruna Achim</em></p>
+
+                <p>Este proyecto creció a lo largo de un trimestre de un curso sobre museos y colecciones, impartido en
+                    el Departamento de Humanidades. Tuvimos la enorme fortuna de contar con el trabajo de diseño y
+                    desarrollo de la página, a cargo de:</p>
+
+                <p>
+                    <em>
+                        <a class="correo" href="mailto:aaronrodrigo@hotmail.com">
+                            Aaron Rodrigo Ramos Reyes – Desarrollador Web Principal
+                        </a>
+                    </em><br>
+                    <em>
+                        <a class="correo" href="https://github.com/Alex007-lab" target="_blank"
+                            rel="noopener noreferrer">
+                            Bryan Alexander Gómez Miranda – Colaborador de Desarrollo Web
+                        </a>
+                    </em>
+                </p>
+
+                <p>Nos encantaría que el <em>Contramuseo</em> siga coleccionando nuevos objetos.
+                    Si quieres contribuir, contacta a <em>Miruna Achim</em>:
+                    <a class="correo" href="mailto:amiruna@cua.uam.mx">amiruna@cua.uam.mx</a>
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- MOSAICO PRINCIPAL -->
+        <section class="mosaic-container">
+            <div class="mosaic-grid" id="mosaicPackery">
+                <!-- El contenido se generará dinámicamente con mosaic.js -->
+            </div>
+
+            <!-- FALLBACK SI JAVASCRIPT NO FUNCIONA -->
+            <noscript>
+                <div class="noscript-message"
+                    style="padding: 2rem; text-align: center; background: #f8f9fa; border-radius: 8px; margin: 2rem 0;">
+                    <h3 style="color: #dc3545;">JavaScript requerido</h3>
+                    <p>Para ver las colecciones del Contramuseo, necesitas habilitar JavaScript en tu navegador.</p>
+                    <p>Las colecciones incluyen: Colecciones Oseas, Falsos y réplicas, Cultura en disputa, Archivos
+                        vivos, y más.</p>
+                </div>
+            </noscript>
+        </section>
+
+    </main>
+
+    <!-- LIBRERÍAS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>
+
+    <!-- CARGA DEL SIDEBAR -->
+    <script src="js/sidebarLoader.js"></script>
+
+    <!-- MOSAICO DINÁMICO -->
+    <script src="js/mosaic.js"></script>
+
+    <!-- SCRIPTS GENERALES DEL SITIO -->
+    <script src="js/main.js"></script>
+
+    <!-- INLINE SCRIPT PARA MEJORAR EXPERIENCIA -->
+    <script>
+        // Mostrar indicador de carga mientras se carga el mosaico
+        document.addEventListener('DOMContentLoaded', function () {
+            const mosaicContainer = document.querySelector('.mosaic-container');
+            const loadingIndicator = document.getElementById('mosaic-loading');
+
+            if (loadingIndicator && mosaicContainer) {
+                // Mostrar loading
+                loadingIndicator.style.display = 'block';
+
+                // Ocultar después de 3 segundos (o cuando se cargue el mosaico)
+                setTimeout(function () {
+                    loadingIndicator.style.display = 'none';
+                }, 3000);
+            }
+
+            // Verificar que Swiper se cargó correctamente
+            window.addEventListener('load', function () {
+                if (typeof Swiper === 'undefined') {
+                    console.error('Swiper no se cargó correctamente. Verifica la conexión a internet.');
+                    // Mostrar mensaje al usuario
+                    const mosaicGrid = document.querySelector('.mosaic-grid');
+                    if (mosaicGrid) {
+                        const errorMsg = document.createElement('div');
+                        errorMsg.className = 'error-message';
+                        errorMsg.innerHTML = `
+                            <div style="padding: 2rem; text-align: center; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 8px; margin: 1rem 0;">
+                                <h4 style="color: #856404;">⚠️ Advertencia</h4>
+                                <p>Algunas funciones pueden no estar disponibles temporalmente.</p>
+                            </div>
+                        `;
+                        mosaicGrid.parentNode.insertBefore(errorMsg, mosaicGrid.nextSibling);
+                    }
+                }
+            });
+        });
+
+        // Script temporal para debug del sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM cargado - verificando elementos del sidebar');
+            console.log('Botón toggle:', document.getElementById('sidebarToggle'));
+            console.log('Contenedor sidebar:', document.getElementById('sidebar'));
+            console.log('Overlay:', document.querySelector('.sidebar-overlay'));
+        });
+    </script>
+
+    <!-- ESTILOS INLINE PARA LOADING -->
+    <style>
+        .mosaic-loading {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid #e9ecef;
+        }
+
+        .loading-spinner {
+            display: inline-flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .loading-spinner i {
+            font-size: 1.5rem;
+            color: #4a6fa5;
+        }
+
+        .loading-spinner span {
+            color: #5a2a27;
+            font-weight: 500;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mosaic-item {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+    </style>
+
+</body>
+
+</html>

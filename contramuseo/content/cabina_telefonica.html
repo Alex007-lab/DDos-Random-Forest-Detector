@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cabina Telefónica • Contramuseo</title>
+
+    <!-- ESTILOS DEL PROYECTO -->
+    <link rel="stylesheet" href="../css/estilos.css">
+
+    <!-- FUENTES -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- ICONOS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- SIMPLELIGHTBOX (CSS) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.min.css">
+    
+    <!-- ESTILOS ADICIONALES PARA EL REPRODUCTOR EN MÓVILES -->
+    <style>
+        /* Estilos adicionales para móviles */
+        @media (max-width: 768px) {
+            .audio-container {
+                padding: 1rem !important;
+                margin: 1.5rem 0 !important;
+            }
+            
+            .audio-player {
+                max-width: 100% !important;
+                padding: 0 !important;
+            }
+            
+            .audio-controls {
+                display: grid !important;
+                grid-template-columns: auto 1fr auto !important;
+                gap: 0.8rem !important;
+                align-items: center !important;
+                padding: 0.5rem 0 !important;
+                width: 100% !important;
+            }
+            
+            .play-pause {
+                width: 50px !important;
+                height: 50px !important;
+            }
+            
+            .progress-container {
+                margin: 0 !important;
+                padding: 0 0.5rem !important;
+            }
+            
+            .progress-bar {
+                height: 6px !important;
+            }
+            
+            .progress-handle {
+                width: 20px !important;
+                height: 20px !important;
+            }
+            
+            .volume-btn {
+                width: 40px !important;
+                height: 40px !important;
+            }
+            
+            .volume-slider-container {
+                position: absolute !important;
+                bottom: 50px !important;
+                left: 50% !important;
+                transform: translateX(-50%) !important;
+                background: rgba(255, 255, 255, 0.95) !important;
+                backdrop-filter: blur(10px) !important;
+                -webkit-backdrop-filter: blur(10px) !important;
+                border-radius: 12px !important;
+                padding: 15px !important;
+                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+                opacity: 0 !important;
+                visibility: hidden !important;
+                transition: all 0.3s ease !important;
+                z-index: 1000 !important;
+            }
+            
+            .volume-slider-container.show {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: translateX(-50%) translateY(-5px) !important;
+            }
+            
+            .volume-slider {
+                height: 80px !important;
+            }
+            
+            .volume-handle {
+                width: 20px !important;
+                height: 20px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .audio-controls {
+                grid-template-columns: 50px 1fr 40px !important;
+                gap: 0.5rem !important;
+            }
+            
+            .play-pause {
+                width: 45px !important;
+                height: 45px !important;
+            }
+            
+            .volume-btn {
+                width: 35px !important;
+                height: 35px !important;
+            }
+            
+            .volume-slider-container {
+                padding: 12px !important;
+                bottom: 45px !important;
+            }
+            
+            .volume-slider {
+                height: 70px !important;
+            }
+        }
+        
+        /* Mejoras para táctil */
+        @media (hover: none) and (pointer: coarse) {
+            .control-btn {
+                min-height: 44px !important;
+                min-width: 44px !important;
+                -webkit-tap-highlight-color: rgba(74, 111, 165, 0.3) !important;
+            }
+        }
+        
+        .control-btn:active {
+            transform: scale(0.95) !important;
+            transition: transform 0.1s ease !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- BOTÓN DE MENÚ MÓVIL -->
+    <button id="sidebarToggle" class="sidebar-toggle" aria-label="Alternar menú lateral" aria-expanded="false">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- OVERLAY PARA CERRAR SIDEBAR -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- CONTENEDOR DEL SIDEBAR -->
+    <div id="sidebar" role="complementary" aria-label="Menú lateral">
+        <!-- El contenido se cargará dinámicamente -->
+    </div>
+
+    <!-- CONTENIDO -->
+    <main class="contenido">
+        <section class="epoca">
+
+            <h1>Una cabina telefonica</h1>
+
+            <p class="intro">
+                Solemos estar acostumbrados a ver a los objetos aunque pocas veces nos percatamos de que ellos también
+                nos ven.
+                ¿Qué pasaría si dejáramos de percibir a los objetos como algo pasivo? ¿Qué crees que nos contarían?
+                ¿Qué nos contaría, por ejemplo, una cabina telefónica de antaño? La cabina telefónica de Telmex
+                representa un
+                momento en la evolución de la comunicación y tecnología – la cual ahora debido a los teléfonos celulares
+                cabe en
+                nuestros bolsillos. Al mismo tiempo, al estar en un museo, y no en cualquiera sino en el Soumaya, la
+                cabina Telmex
+                cuenta a la vez el origen de un monopolio.
+            </p>
+            <p class="autor"><em> Aranza Verónica Plata Miranda </em></p>
+
+            <div class="audio-container" style="margin-top: 2rem;">
+                <h2>Para saber más</h2>
+
+                <div class="audio-player" id="audio-player-container">
+                    <div class="audio-info">
+                        <div class="audio-time">
+                            <span class="current-time">0:00</span> /
+                            <span class="duration">0:00</span>
+                        </div>
+                    </div>
+
+                    <div class="audio-controls">
+                        <!-- Botón play/pause -->
+                        <button class="control-btn play-pause" aria-label="Reproducir o pausar audio">
+                            <i class="fas fa-play play-icon"></i>
+                            <i class="fas fa-pause pause-icon" style="display: none;"></i>
+                        </button>
+
+                        <!-- Barra de progreso -->
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div class="progress"></div>
+                                <div class="progress-handle"></div>
+                            </div>
+                        </div>
+
+                        <!-- Control de volumen -->
+                        <div class="volume-controls">
+                            <button class="control-btn volume-btn" aria-label="Control de volumen">
+                                <i class="fas fa-volume-up volume-high"></i>
+                                <i class="fas fa-volume-mute volume-mute" style="display: none;"></i>
+                            </button>
+
+                            <div class="volume-slider-container">
+                                <div class="volume-slider">
+                                    <div class="volume-level"></div>
+                                    <div class="volume-handle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <audio id="audio-player">
+                        <source src="../audio/cabina_telefonica.mp3" type="audio/mpeg">
+                        Tu navegador no soporta el elemento de audio.
+                    </audio>
+                </div>
+            </div>
+
+            <!-- GALERÍA CON ZOOM -->
+            <div class="contenedor-marco" style="margin-top: 3rem;">
+
+
+                <div class="galeria gallery-grid">
+                    <a href="../img/cabina_telefonica2.jpg" class="gallery-item">
+                        <img src="../img/cabina_telefonica.jpg" alt="cabina telefonica">
+                    </a>
+
+                    <a href="../img/cabina_telefonica.jpg" class="gallery-item">
+                        <img src="../img/cabina_telefonica2.jpg" alt="cabina telefonica">
+                    </a>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="../js/sidebarLoader.js"></script>
+    <script src="../js/audioPlayer.js"></script>
+
+    <!-- SIMPLELIGHTBOX (JS) -->
+    <script src="https://cdn.jsdelivr.net/npm/simplelightbox@2.14.3/dist/simple-lightbox.jquery.min.js"></script>
+
+    <script>
+        // Activar zoom SimpleLightbox
+        $(function () {
+            $('.gallery-grid a').simpleLightbox({
+                captions: true,
+                captionsData: "alt",
+                captionDelay: 250
+            });
+        });
+        
+        // Script adicional para mejorar experiencia en móviles
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mejorar táctil en móviles
+            if ('ontouchstart' in window) {
+                // Aumentar área táctil de los controles
+                const controls = document.querySelectorAll('.control-btn, .progress-bar, .volume-slider');
+                controls.forEach(control => {
+                    control.style.minHeight = '44px';
+                    control.style.minWidth = '44px';
+                });
+                
+                // Feedback visual para táctil
+                document.addEventListener('touchstart', function(e) {
+                    if (e.target.closest('.control-btn')) {
+                        e.target.closest('.control-btn').style.opacity = '0.8';
+                    }
+                });
+                
+                document.addEventListener('touchend', function(e) {
+                    document.querySelectorAll('.control-btn').forEach(btn => {
+                        btn.style.opacity = '1';
+                    });
+                });
+                
+                // Prevenir zoom accidental al tocar controles
+                const audioControls = document.querySelector('.audio-controls');
+                if (audioControls) {
+                    audioControls.addEventListener('touchstart', function(e) {
+                        if (e.touches.length > 1) {
+                            e.preventDefault();
+                        }
+                    }, { passive: false });
+                }
+            }
+            
+            // Asegurar que el audio se cargue correctamente en móviles
+            const audio = document.getElementById('audio-player');
+            if (audio) {
+                // Precargar solo metadatos para móviles
+                audio.preload = 'metadata';
+                
+                // Manejar interacción del usuario para reproducción
+                let audioInitialized = false;
+                const initAudioOnInteraction = function() {
+                    if (!audioInitialized && audio.readyState === 0) {
+                        audio.load();
+                        console.log('Audio precargado en móvil');
+                        audioInitialized = true;
+                    }
+                };
+                
+                // Escuchar múltiples tipos de interacción
+                document.addEventListener('touchstart', initAudioOnInteraction, { once: true });
+                document.addEventListener('click', initAudioOnInteraction, { once: true });
+                
+                // También en los controles del reproductor
+                const playBtn = document.querySelector('.play-pause');
+                if (playBtn) {
+                    playBtn.addEventListener('click', initAudioOnInteraction, { once: true });
+                }
+            }
+        });
+    </script>
+
+</body>
+
+</html>
