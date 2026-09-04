@@ -72,7 +72,8 @@ utilizarse directamente para entrenar o evaluar el modelo.
 
 ## Limitaciones actuales
 
-- Docker presenta actualmente `172.20.0.1` como dirección de origen.
+- En los experimentos actuales Nginx observa la IP del contenedor de Locust
+  (`172.20.0.4` en las ejecuciones conservadas), no una IP pública del cliente.
 - No se utilizará `remote_addr` como característica hasta conservar
   correctamente la IP original.
 - `user_agent` puede ser falsificado y no se utilizará inicialmente.

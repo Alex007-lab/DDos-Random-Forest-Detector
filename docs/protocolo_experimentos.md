@@ -130,6 +130,18 @@ mantendrá las mismas rutas.
 Las cantidades podrán reducirse si el equipo muestra inestabilidad.
 Cualquier cambio deberá registrarse en la bitácora.
 
+Comandos reproducibles acordados:
+
+```bash
+./scripts/run_experiment.sh attack train 01 20 10 120s
+./scripts/run_experiment.sh attack train 02 30 10 120s
+./scripts/run_experiment.sh attack train 03 40 10 120s
+./scripts/run_experiment.sh attack validation 01 25 10 120s
+./scripts/run_experiment.sh attack test 01 35 10 120s
+```
+
+Se ejecutará un comando a la vez y se validará su evidencia antes de avanzar.
+
 ## 10. Medidas de seguridad
 
 La carga aumentará progresivamente.
@@ -205,6 +217,17 @@ Por cada experimento se almacenará:
 - Errores observados.
 - Estado de los contenedores.
 - Observación de CPU y memoria.
+
+La auditoría se ejecutará con:
+
+```bash
+python3 scripts/validate_datasets.py \
+  --json-output reports/data_validation.json
+```
+
+Nginx es la fuente de verdad del tráfico que alcanzó la aplicación. Los conteos
+de Locust se conservan como evidencia complementaria y cualquier diferencia se
+reporta sin modificar manualmente el RAW.
 
 ## 15. Limitaciones
 
