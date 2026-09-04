@@ -1,0 +1,1012 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Plan de trabajo y evaluación propuesta — Proyecto Terminal</title>
+    <style>
+      :root {
+        --bg: #f3f5f8;
+        --paper: #ffffff;
+        --ink: #17212b;
+        --muted: #5c6875;
+        --line: #dbe1e7;
+        --primary: #5d1748;
+        --primary-dark: #39102e;
+        --teal: #087f83;
+        --teal-soft: #e8f6f5;
+        --purple-soft: #f5edf3;
+        --amber: #a86800;
+        --amber-soft: #fff6df;
+        --green: #287453;
+        --green-soft: #eaf7f0;
+        --blue: #2d6097;
+        --blue-soft: #edf4fb;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        color: var(--ink);
+        background: var(--bg);
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        line-height: 1.55;
+      }
+
+      .document {
+        width: min(1100px, calc(100% - 28px));
+        margin: 24px auto 48px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: var(--paper);
+        box-shadow: 0 18px 50px rgba(31, 39, 48, 0.11);
+      }
+
+      header {
+        position: relative;
+        overflow: hidden;
+        padding: 54px 62px 42px;
+        color: #fff;
+        background: linear-gradient(
+          128deg,
+          var(--primary-dark),
+          var(--primary) 62%,
+          #7d2b63
+        );
+      }
+
+      header::after {
+        content: "";
+        position: absolute;
+        right: -80px;
+        bottom: -140px;
+        width: 360px;
+        height: 360px;
+        border: 40px solid rgba(255, 255, 255, 0.08);
+        border-radius: 50%;
+      }
+
+      .kicker {
+        margin: 0 0 12px;
+        font-size: 0.76rem;
+        font-weight: 750;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        opacity: 0.82;
+      }
+
+      h1 {
+        position: relative;
+        z-index: 1;
+        max-width: 850px;
+        margin: 0;
+        font-size: clamp(2rem, 4.5vw, 3.6rem);
+        line-height: 1.07;
+        letter-spacing: -0.035em;
+      }
+
+      .project-name {
+        position: relative;
+        z-index: 1;
+        max-width: 800px;
+        margin: 18px 0 0;
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 1.05rem;
+      }
+
+      .header-meta {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 26px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(255, 255, 255, 0.25);
+        font-size: 0.88rem;
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 12px 24px;
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+      }
+
+      .toolbar span {
+        color: var(--muted);
+        font-size: 0.83rem;
+      }
+
+      button {
+        border: 0;
+        border-radius: 8px;
+        padding: 9px 14px;
+        color: #fff;
+        background: var(--primary);
+        font: inherit;
+        font-size: 0.83rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      main {
+        padding: 38px 62px 64px;
+      }
+
+      section {
+        margin-top: 46px;
+        scroll-margin-top: 30px;
+      }
+      section:first-child {
+        margin-top: 0;
+      }
+
+      h2 {
+        margin: 0 0 18px;
+        color: var(--primary-dark);
+        font-size: 1.55rem;
+        line-height: 1.2;
+      }
+
+      h2::after {
+        content: "";
+        display: block;
+        width: 52px;
+        height: 3px;
+        margin-top: 9px;
+        border-radius: 99px;
+        background: var(--teal);
+      }
+
+      h3 {
+        margin: 0 0 8px;
+        font-size: 1rem;
+      }
+      p {
+        margin: 8px 0 14px;
+      }
+
+      .intro {
+        max-width: 900px;
+        color: #34414d;
+        font-size: 1.08rem;
+      }
+
+      .scope-note {
+        margin-top: 20px;
+        padding: 17px 19px;
+        border-left: 4px solid var(--teal);
+        border-radius: 0 9px 9px 0;
+        background: var(--teal-soft);
+      }
+
+      .scope-note strong {
+        color: var(--primary-dark);
+      }
+
+      .three-stage {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+
+      .stage {
+        padding: 18px;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+        background: #fff;
+      }
+
+      .stage.current {
+        border-color: #70b8b6;
+        background: var(--teal-soft);
+      }
+
+      .stage-label {
+        display: inline-block;
+        margin-bottom: 10px;
+        padding: 4px 8px;
+        border-radius: 999px;
+        color: var(--green);
+        background: var(--green-soft);
+        font-size: 0.7rem;
+        font-weight: 750;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .current .stage-label {
+        color: var(--teal);
+        background: #d8eeed;
+      }
+
+      .future .stage-label {
+        color: var(--blue);
+        background: var(--blue-soft);
+      }
+
+      .stage p {
+        margin-bottom: 0;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      /* Diagrama autocontenido de la arquitectura */
+      .architecture {
+        padding: 26px;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.91), rgba(255, 255, 255, 0.91)),
+          linear-gradient(90deg, var(--line) 1px, transparent 1px),
+          linear-gradient(var(--line) 1px, transparent 1px);
+        background-size:
+          auto,
+          26px 26px,
+          26px 26px;
+      }
+
+      .diagram-row {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        gap: 14px;
+      }
+
+      .diagram-row + .arrow-down {
+        margin-top: 8px;
+      }
+
+      .node {
+        flex: 1 1 0;
+        min-width: 0;
+        padding: 14px 12px;
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        text-align: center;
+        background: #fff;
+        box-shadow: 0 5px 14px rgba(39, 48, 58, 0.06);
+      }
+
+      .node.main {
+        max-width: 430px;
+        color: #fff;
+        border-color: var(--primary);
+        background: var(--primary);
+      }
+
+      .node.sensor {
+        border-top: 4px solid var(--teal);
+      }
+      .node.future {
+        border-style: dashed;
+        background: var(--purple-soft);
+      }
+
+      .node strong {
+        display: block;
+        font-size: 0.95rem;
+      }
+      .node small {
+        display: block;
+        margin-top: 4px;
+        color: var(--muted);
+        line-height: 1.35;
+      }
+      .node.main small {
+        color: rgba(255, 255, 255, 0.83);
+      }
+
+      .arrow-down {
+        height: 28px;
+        color: var(--primary);
+        text-align: center;
+        font-size: 1.35rem;
+        font-weight: 800;
+        line-height: 28px;
+      }
+
+      .branch-label {
+        margin: 17px 0 10px;
+        color: var(--muted);
+        text-align: center;
+        font-size: 0.76rem;
+        font-weight: 750;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px 18px;
+        margin-top: 18px;
+        color: var(--muted);
+        font-size: 0.78rem;
+      }
+
+      .legend span::before {
+        content: "";
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        margin-right: 6px;
+        border-radius: 3px;
+        background: var(--teal);
+      }
+
+      .legend .later::before {
+        background: var(--primary);
+        opacity: 0.55;
+      }
+
+      .decision {
+        margin-top: 18px;
+        padding: 15px 17px;
+        border: 1px solid #e7c47c;
+        border-radius: 9px;
+        color: #5f470d;
+        background: var(--amber-soft);
+        font-size: 0.9rem;
+      }
+
+      .table-wrap {
+        overflow-x: auto;
+        border: 1px solid var(--line);
+        border-radius: 11px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+      }
+
+      th,
+      td {
+        padding: 13px 14px;
+        border-bottom: 1px solid var(--line);
+        vertical-align: top;
+        text-align: left;
+      }
+
+      th {
+        color: #fff;
+        background: var(--primary);
+        font-size: 0.77rem;
+        letter-spacing: 0.025em;
+      }
+
+      tr:last-child td {
+        border-bottom: 0;
+      }
+      tbody tr:nth-child(even) {
+        background: #fafbfc;
+      }
+      .percentage {
+        color: var(--primary);
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .checklist {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px 18px;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      .checklist li {
+        position: relative;
+        padding: 12px 12px 12px 39px;
+        border: 1px solid var(--line);
+        border-radius: 9px;
+        background: #fff;
+      }
+
+      .checklist li::before {
+        content: "✓";
+        position: absolute;
+        top: 11px;
+        left: 13px;
+        display: grid;
+        width: 18px;
+        height: 18px;
+        place-items: center;
+        border-radius: 50%;
+        color: #fff;
+        background: var(--teal);
+        font-size: 0.72rem;
+        font-weight: 800;
+      }
+
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+      }
+
+      .timeline-item {
+        position: relative;
+        padding: 15px 13px;
+        border-top: 4px solid var(--teal);
+        border-radius: 7px;
+        background: var(--teal-soft);
+      }
+
+      .timeline-item.t3 {
+        border-color: var(--primary);
+        background: var(--purple-soft);
+      }
+
+      .timeline-item strong {
+        display: block;
+        margin-bottom: 5px;
+      }
+      .timeline-item span {
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.35;
+      }
+
+      .advisor-list {
+        margin-bottom: 0;
+        padding: 18px 22px 18px 42px;
+        border-radius: 10px;
+        background: var(--purple-soft);
+      }
+
+      code {
+        padding: 0.08em 0.3em;
+        border: 1px solid #e2d7df;
+        border-radius: 4px;
+        color: var(--primary-dark);
+        background: #f7f1f5;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 0.9em;
+      }
+
+      footer {
+        padding: 18px 62px 24px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+        background: #fafbfc;
+        font-size: 0.78rem;
+      }
+
+      @media (max-width: 820px) {
+        header,
+        main,
+        footer {
+          padding-left: 24px;
+          padding-right: 24px;
+        }
+        .three-stage,
+        .checklist,
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+        .diagram-row {
+          flex-direction: column;
+        }
+        .node.main {
+          max-width: none;
+        }
+        .toolbar {
+          align-items: flex-start;
+        }
+      }
+
+      @page {
+        size: A4;
+        margin: 15mm;
+      }
+
+      @media print {
+        body {
+          background: #fff;
+          font-size: 10.2pt;
+        }
+        .document {
+          width: 100%;
+          margin: 0;
+          border: 0;
+          border-radius: 0;
+          box-shadow: none;
+        }
+        header {
+          padding: 22mm 16mm;
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        .toolbar {
+          display: none;
+        }
+        main {
+          padding: 12mm 0 0;
+        }
+        section {
+          margin-top: 9mm;
+        }
+        h2,
+        h3 {
+          break-after: avoid;
+        }
+        .stage,
+        .architecture,
+        .decision,
+        .timeline-item,
+        li,
+        tr {
+          break-inside: avoid;
+        }
+        .table-wrap {
+          overflow: visible;
+        }
+        th {
+          print-color-adjust: exact;
+          -webkit-print-color-adjust: exact;
+        }
+        footer {
+          padding: 8mm 0 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <article class="document">
+      <header>
+        <p class="kicker">UAM Cuajimalpa · Proyecto Terminal</p>
+        <h1>Plan de trabajo y evaluación propuesta</h1>
+        <p class="project-name">
+          Sistema de detección y mitigación de ataques DDoS mediante
+          inteligencia artificial
+        </p>
+        <div class="header-meta">
+          <span><strong>Alumno:</strong> Bryan Alexander Gómez Miranda</span>
+          <span><strong>Periodo:</strong> Segundo y tercer trimestre</span>
+        </div>
+      </header>
+
+      <div class="toolbar">
+        <span
+          >Documento breve para acordar entregables, evaluación y plan de
+          trabajo.</span
+        >
+        <button type="button" onclick="window.print()">
+          Imprimir / guardar PDF
+        </button>
+      </div>
+
+      <main>
+        <section>
+          <h2>¿Qué se busca construir?</h2>
+          <p class="intro">
+            Un prototipo que observe el tráfico dirigido al Contramuseo,
+            extraiga características medibles y utilice un modelo de aprendizaje
+            automático para distinguir comportamiento normal de actividad
+            compatible con un ataque DDoS. En el segundo trimestre se busca
+            llegar hasta la <strong>detección y alerta</strong>; en el tercero
+            se integrarán la
+            <strong
+              >mitigación, el dashboard y el despliegue en Raspberry Pi</strong
+            >.
+          </p>
+          <div class="scope-note">
+            <strong>Función del Contramuseo:</strong> será el servicio web que
+            se protege y el entorno donde se genera tráfico de prueba. El
+            objetivo principal del PT sigue siendo la detección DDoS con IA, no
+            construir un CMS completo.
+          </div>
+        </section>
+
+        <section>
+          <h2>Vista general de los tres trimestres</h2>
+          <div class="three-stage">
+            <article class="stage">
+              <span class="stage-label">T1 · realizado</span>
+              <h3>Investigación y definición</h3>
+              <p>
+                Fundamentos de DDoS y machine learning, planteamiento del
+                problema, alcance inicial y documento teórico.
+              </p>
+            </article>
+            <article class="stage current">
+              <span class="stage-label">T2 · actual</span>
+              <h3>Prototipo de detección</h3>
+              <p>
+                Infraestructura, captura de datos, extracción de
+                características, modelo evaluado y alertas en laboratorio.
+              </p>
+            </article>
+            <article class="stage future">
+              <span class="stage-label">T3 · siguiente</span>
+              <h3>Integración y evaluación final</h3>
+              <p>
+                Mitigación segura, dashboard, despliegue en Raspberry Pi,
+                pruebas finales y documento completo.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section>
+          <h2>Diagrama general del proyecto</h2>
+          <div
+            class="architecture"
+            role="img"
+            aria-label="Arquitectura del proyecto: el tráfico llega a Nginx; Nginx sirve el frontend, se comunica con Flask y SQLite, y escribe logs. Los logs HTTP y los paquetes de red alimentan detectores que generan alertas en el segundo trimestre y mitigación y dashboard en el tercero."
+          >
+            <div class="diagram-row">
+              <div class="node main">
+                <strong>Usuarios / Locust / prueba controlada</strong>
+                <small>Tráfico normal y anómalo dentro del laboratorio</small>
+              </div>
+            </div>
+            <div class="arrow-down" aria-hidden="true">↓</div>
+            <div class="diagram-row">
+              <div class="node main">
+                <strong>Nginx</strong>
+                <small>Entrada del sistema · puerto 80 · proxy · logs</small>
+              </div>
+            </div>
+
+            <p class="branch-label">Aplicación protegida</p>
+            <div class="diagram-row">
+              <div class="node">
+                <strong>Frontend Contramuseo</strong>
+                <small>HTML, CSS, JavaScript, imágenes y audios</small>
+              </div>
+              <div class="node">
+                <strong>API Flask</strong>
+                <small>Rutas dinámicas y lógica del sistema</small>
+              </div>
+              <div class="node">
+                <strong>SQLite</strong>
+                <small>Persistencia de objetos y datos de la aplicación</small>
+              </div>
+            </div>
+
+            <p class="branch-label">Monitoreo y detección</p>
+            <div class="diagram-row">
+              <div class="node sensor">
+                <strong>Sensor HTTP</strong>
+                <small
+                  ><code>access.log</code> de Nginx → ventanas →
+                  características</small
+                >
+              </div>
+              <div class="node sensor future">
+                <strong>Sensor de red</strong>
+                <small
+                  >Interfaz del host → Scapy → características de
+                  paquetes</small
+                >
+              </div>
+            </div>
+            <div class="arrow-down" aria-hidden="true">↓</div>
+            <div class="diagram-row">
+              <div class="node main">
+                <strong>Modelo de detección</strong>
+                <small>Clasificación o puntuación de anomalía</small>
+              </div>
+            </div>
+            <div class="arrow-down" aria-hidden="true">↓</div>
+            <div class="diagram-row">
+              <div class="node sensor">
+                <strong>T2: alertas</strong>
+                <small>Consola, IP, instante y evidencia de la detección</small>
+              </div>
+              <div class="node future">
+                <strong>T3: respuesta</strong>
+                <small>Dashboard, historial y bloqueo controlado</small>
+              </div>
+            </div>
+            <div class="legend" aria-hidden="true">
+              <span>Prioridad del segundo trimestre</span>
+              <span class="later"
+                >Integración principal del tercer trimestre</span
+              >
+            </div>
+          </div>
+
+          <div class="decision">
+            <strong>Decisión que debe validarse con el asesor:</strong> para T2
+            se recomienda terminar un detector completo de extremo a extremo. Si
+            se usa Nginx, el modelo debe entrenarse con características
+            obtenibles desde sus logs. Si se usa CICIDS2017, la inferencia en
+            vivo debe extraer las mismas características de flujo; no deben
+            mezclarse ambos esquemas.
+          </div>
+        </section>
+
+        <section>
+          <h2>Plan del segundo trimestre</h2>
+          <div class="timeline" aria-label="Cronograma del segundo trimestre">
+            <div class="timeline-item">
+              <strong>Semana 8</strong
+              ><span>Corregir y comprender Docker, Nginx, Flask y SQLite.</span>
+            </div>
+            <div class="timeline-item">
+              <strong>Semana 9</strong
+              ><span
+                >Generar logs, definir ventanas y construir el extractor.</span
+              >
+            </div>
+            <div class="timeline-item">
+              <strong>Semana 10</strong
+              ><span
+                >Entrenar el modelo, crear línea base y medir resultados.</span
+              >
+            </div>
+            <div class="timeline-item">
+              <strong>Semana 11</strong
+              ><span>Integrar alertas, repetir pruebas y documentar.</span>
+            </div>
+            <div class="timeline-item">
+              <strong>Semana 12</strong
+              ><span>Demostración y entrega de evidencias.</span>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <h2>Entregables evaluables del segundo trimestre</h2>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Entregable</th>
+                  <th>Qué debe demostrar</th>
+                  <th>Evidencia sugerida</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>1. Infraestructura funcional</strong></td>
+                  <td>
+                    Nginx, Flask y SQLite levantan con Docker Compose; el
+                    Contramuseo y la API responden.
+                  </td>
+                  <td>
+                    Repositorio, diagrama, <code>docker compose up</code>, rutas
+                    de prueba y logs.
+                  </td>
+                  <td class="percentage">15 %</td>
+                </tr>
+                <tr>
+                  <td><strong>2. Datos y características</strong></td>
+                  <td>
+                    Existe un protocolo reproducible para generar tráfico
+                    normal/anómalo y convertirlo en variables numéricas.
+                  </td>
+                  <td>
+                    Scripts, muestra del dataset, diccionario de variables y
+                    separación entrenamiento/prueba.
+                  </td>
+                  <td class="percentage">20 %</td>
+                </tr>
+                <tr>
+                  <td><strong>3. Modelo y evaluación</strong></td>
+                  <td>
+                    El modelo se compara con una regla base y se evalúa con
+                    datos no usados durante el entrenamiento.
+                  </td>
+                  <td>
+                    Notebook o script, matriz de confusión, precisión, recall,
+                    F1 y análisis de falsos positivos.
+                  </td>
+                  <td class="percentage">30 %</td>
+                </tr>
+                <tr>
+                  <td><strong>4. Monitor con alertas</strong></td>
+                  <td>
+                    El sistema procesa tráfico nuevo y genera una alerta durante
+                    una prueba local controlada.
+                  </td>
+                  <td>
+                    Demostración, salida de consola y registro de tiempo de
+                    detección.
+                  </td>
+                  <td class="percentage">20 %</td>
+                </tr>
+                <tr>
+                  <td><strong>5. Documentación y explicación</strong></td>
+                  <td>
+                    El alumno explica el flujo completo y documenta
+                    arquitectura, decisiones, pruebas, resultados y
+                    limitaciones.
+                  </td>
+                  <td>
+                    Documento LaTeX actualizado, capturas, bitácora y
+                    exposición.
+                  </td>
+                  <td class="percentage">15 %</td>
+                </tr>
+                <tr>
+                  <td><strong>Total</strong></td>
+                  <td colspan="2">
+                    Propuesta de ponderación ajustable por el asesor.
+                  </td>
+                  <td class="percentage">100 %</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2>Resultado esperado al terminar el segundo trimestre</h2>
+          <ul class="checklist">
+            <li>
+              El proyecto se levanta de forma reproducible con Docker Compose.
+            </li>
+            <li>
+              Nginx sirve el Contramuseo, envía la API a Flask y produce logs
+              utilizables.
+            </li>
+            <li>
+              Existe un conjunto de datos de laboratorio con tráfico normal y
+              anómalo.
+            </li>
+            <li>
+              El extractor genera las mismas variables para entrenamiento e
+              inferencia.
+            </li>
+            <li>El modelo tiene métricas sobre datos de prueba separados.</li>
+            <li>
+              Una prueba controlada provoca una alerta visible y auditable.
+            </li>
+            <li>
+              El documento de PT incluye arquitectura, metodología y resultados
+              preliminares.
+            </li>
+            <li>
+              No se bloquean IP automáticamente todavía; primero se validan
+              falsos positivos.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Plan del tercer trimestre</h2>
+          <div class="timeline" aria-label="Cronograma del tercer trimestre">
+            <div class="timeline-item t3">
+              <strong>Semanas 1–2</strong
+              ><span
+                >Revisar resultados de T2 y ajustar características, modelo y
+                umbrales.</span
+              >
+            </div>
+            <div class="timeline-item t3">
+              <strong>Semanas 3–4</strong
+              ><span
+                >Desplegar en Raspberry Pi y medir consumo, estabilidad y
+                latencia.</span
+              >
+            </div>
+            <div class="timeline-item t3">
+              <strong>Semanas 5–6</strong
+              ><span
+                >Integrar mitigación segura: lista permitida, bloqueo temporal y
+                recuperación.</span
+              >
+            </div>
+            <div class="timeline-item t3">
+              <strong>Semanas 7–8</strong
+              ><span
+                >Construir dashboard e historial de tráfico, alertas y
+                bloqueos.</span
+              >
+            </div>
+            <div class="timeline-item t3">
+              <strong>Semanas 9–11</strong
+              ><span
+                >Pruebas finales, análisis comparativo, conclusiones, documento
+                y presentación.</span
+              >
+            </div>
+          </div>
+
+          <div class="table-wrap" style="margin-top: 18px">
+            <table>
+              <thead>
+                <tr>
+                  <th>Resultado final</th>
+                  <th>Cómo se comprobará</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Detector ajustado en Raspberry Pi</td>
+                  <td>
+                    Pruebas repetidas con métricas de precisión, falsos
+                    positivos, latencia y recursos.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Mitigación controlada</td>
+                  <td>
+                    Una IP de prueba se bloquea temporalmente y el sistema evita
+                    bloquear direcciones permitidas.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Dashboard</td>
+                  <td>
+                    Muestra tráfico, alertas, decisiones del modelo e historial
+                    de bloqueos.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Evaluación final</td>
+                  <td>
+                    Comparación de escenarios normales/anómalos y análisis de
+                    límites del prototipo.
+                  </td>
+                </tr>
+                <tr>
+                  <td>Documento final</td>
+                  <td>
+                    Metodología, implementación, resultados, conclusiones y
+                    trabajo futuro completos.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section>
+          <h2>Puntos a acordar con el asesor</h2>
+          <ol class="advisor-list">
+            <li>
+              Si el entregable principal de T2 será el detector HTTP basado en
+              logs de Nginx o el detector de flujos de red.
+            </li>
+            <li>
+              Si las ponderaciones propuestas representan correctamente la
+              importancia de cada entregable.
+            </li>
+            <li>
+              Confirmar que el bloqueo automático, dashboard y despliegue en
+              Raspberry Pi se evaluarán en el tercer trimestre.
+            </li>
+            <li>
+              Definir si el backend completo del Contramuseo es requisito del PT
+              o solo una extensión del entorno de prueba.
+            </li>
+          </ol>
+        </section>
+      </main>
+
+      <footer>
+        Propuesta de trabajo sujeta a ajustes del asesor. Las pruebas de carga
+        se realizarán únicamente contra infraestructura propia y dentro de un
+        entorno local o autorizado.
+      </footer>
+    </article>
+  </body>
+</html>

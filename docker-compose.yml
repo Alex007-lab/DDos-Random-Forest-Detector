@@ -24,7 +24,7 @@ services:
     image: nginx:1.25-alpine # imagen oficial liviana (~40 MB)
     container_name: contramuseo-nginx
     ports:
-      - "80:80" # localhost:80 → tu navegador
+      - "8080:80" # localhost:80 → tu navegador
     volumes:
       - ./contramuseo:/usr/share/nginx/html:ro # sitio estático (solo lectura)
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
@@ -35,6 +35,38 @@ services:
     depends_on:
       - flask-api # espera a que flask-api arranque
     restart: unless-stopped
+
+  
+  detector:
+    image: python:3.11-slim
+    working_dir: /app
+    command: ["python", "log_reader.py"]
+
+    volumes:
+      - ./detector:/app:ro
+      - nginx-logs:/data/nginx:ro
+      - ./datasets:/datasets
+
+    networks:
+      - contramuseo-net
+
+    depends_on:
+      - nginx
+    
+  locust:
+    image: locustio/locust:2.46.3
+    profiles:
+      - testing
+    working_dir: /mnt/locust
+    volumes:
+      - ./loadtest:/mnt/locust:ro
+      - ./reports/locust:/reports
+    networks:
+      - contramuseo-net
+    depends_on:
+      nginx:
+        condition: service_started
+    
 
   # ── 2. FLASK-API: backend con autenticación y subida de podcasts ──
   flask-api:
@@ -47,11 +79,10 @@ services:
     volumes:
       - ./backend:/app # monta el código en vivo (hot-reload en dev)
       - ./database:/app/database # persiste la base de datos SQLite
-      - db-data:/app/database
     environment:
       - FLASK_ENV=development # activa el modo debug y recarga automática
       - FLASK_APP=app.py
-      - DATABASE_URL=sqlite:///database/contramuseo.db
+      - DATABASE_URL=sqlite:////app/database/contramuseo.db
       - SECRET_KEY=${SECRET_KEY:?Define SECRET_KEY en el archivo .env}
     networks:
       contramuseo-net:

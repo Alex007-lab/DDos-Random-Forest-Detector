@@ -84,11 +84,11 @@ with app.app_context():
 #  Rutas — Semana 8: solo endpoints de verificación
 # ─────────────────────────────────────────────────────────────────────────────
 
-@app.route('/health')
+@app.route('/api/health')
 def health():
     """
     Endpoint de salud. Permite verificar que el contenedor está vivo.
-    Llámalo con: curl http://localhost:5000/health
+    Llámalo con: curl http://localhost:5000/api/health
     Nginx lo llama en: http://localhost/api/health
     """
     return jsonify({
